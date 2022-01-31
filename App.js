@@ -8,22 +8,26 @@
 
 import type {Node} from 'react';
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
+import Focus from './src/features/focus/Focus';
+import Timer from './src/features/timer/Timer';
+import {spacing} from './src/utils/sizes';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 50,
+    backgroundColor: '#141B29',
+    paddingTop: Platform.OS === 'android' ? spacing.md : spacing.lg,
   },
 });
 const App: () => Node = () => {
-  const [focusSubject, setFocusSubject] = useState(null);
+  const [focusSubject, setFocusSubject] = useState('null');
   return (
     <View style={styles.container}>
       {focusSubject ? (
-        <Text>Hey subject present</Text>
+        <Timer focusSubject={focusSubject} />
       ) : (
-        <Text>No subject present</Text>
+        <Focus addSubject={setFocusSubject} />
       )}
     </View>
   );
