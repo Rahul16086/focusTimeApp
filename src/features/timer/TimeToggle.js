@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import ButtonRounded from '../../components/ButtonRounded';
 
-const TimeToggle = ({onChangeTime, onIncreaseTime}) => {
+const TimeToggle = ({onChangeTime}) => {
   const styles = StyleSheet.create({
     timeToggleButton: {
       flex: 1,

@@ -6,7 +6,7 @@ import ButtonRounded from '../../components/ButtonRounded';
 import {ProgressBar} from 'react-native-paper';
 import TimeToggle from './TimeToggle';
 
-const DEFAULT_TIME = 0.167;
+const DEFAULT_TIME = 0.1;
 const Timer = ({focusSubject, onTimerEnd, focusReset}) => {
   const styles = StyleSheet.create({
     container: {

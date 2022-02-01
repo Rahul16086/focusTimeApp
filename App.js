@@ -12,6 +12,7 @@ import {Platform, StyleSheet, View} from 'react-native';
 import Focus from './src/features/focus/Focus';
 import Timer from './src/features/timer/Timer';
 import {spacing} from './src/utils/sizes';
+import FocusHistory from './src/features/focus/FocusHistory';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,9 +26,12 @@ const App: () => Node = () => {
   const [focusHistory, setFocusHistory] = useState([]);
 
   const addSubjectToFocusHistory = (subject, completion) => {
-    setFocusHistory([...focusHistory], {subject, completion});
+    setFocusHistory([...focusHistory, {subject, completion}]);
   };
 
+  const onClear = () => {
+    setFocusHistory([]);
+  };
   return (
     <View style={styles.container}>
       {focusSubject ? (
@@ -43,7 +47,10 @@ const App: () => Node = () => {
           }}
         />
       ) : (
-        <Focus addSubject={setFocusSubject} />
+        <>
+          <Focus addSubject={setFocusSubject} />
+          <FocusHistory focusHistory={focusHistory} onClear={onClear} />
+        </>
       )}
     </View>
   );
