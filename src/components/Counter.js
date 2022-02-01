@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text} from 'react-native';
 import {fontSize, spacing} from '../utils/sizes';
 
-const Counter = ({minutes = 1, isPaused, onProgress}) => {
+const Counter = ({minutes = 1, isPaused, onProgress, onEnd}) => {
   const minutesToMilliseconds = min => min * 60000;
 
   const styles = StyleSheet.create({
@@ -20,7 +20,8 @@ const Counter = ({minutes = 1, isPaused, onProgress}) => {
   const countDown = () => {
     setMilliSeconds(time => {
       if (time === 0) {
-        //implement next logic
+        clearInterval(interval.current);
+        onEnd();
         return time;
       }
       const timeLeft = time - 1000;
@@ -28,6 +29,16 @@ const Counter = ({minutes = 1, isPaused, onProgress}) => {
       return timeLeft;
     });
   };
+
+  const [milliSeconds, setMilliSeconds] = useState(null);
+
+  const timeFormatter = time => (time < 10 ? `0${time}` : time);
+  const minute = Math.floor(milliSeconds / 60000) % 60;
+  const seconds = Math.floor(milliSeconds / 1000) % 60;
+
+  useEffect(() => {
+    setMilliSeconds(minutesToMilliseconds(minutes));
+  }, [minutes]);
 
   useEffect(() => {
     if (isPaused) {
@@ -39,13 +50,6 @@ const Counter = ({minutes = 1, isPaused, onProgress}) => {
 
     return () => clearInterval(interval.current);
   }, [isPaused]);
-
-  const [milliSeconds, setMilliSeconds] = useState(
-    minutesToMilliseconds(minutes),
-  );
-  const timeFormatter = time => (time < 10 ? `0${time}` : time);
-  const minute = Math.floor(milliSeconds / 60000) % 60;
-  const seconds = Math.floor(milliSeconds / 1000) % 60;
 
   return (
     <Text style={styles.text}>

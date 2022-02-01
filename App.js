@@ -21,11 +21,27 @@ const styles = StyleSheet.create({
   },
 });
 const App: () => Node = () => {
-  const [focusSubject, setFocusSubject] = useState('null');
+  const [focusSubject, setFocusSubject] = useState(null);
+  const [focusHistory, setFocusHistory] = useState([]);
+
+  const addSubjectToFocusHistory = (subject, completion) => {
+    setFocusHistory([...focusHistory], {subject, completion});
+  };
+
   return (
     <View style={styles.container}>
       {focusSubject ? (
-        <Timer focusSubject={focusSubject} />
+        <Timer
+          focusSubject={focusSubject}
+          onTimerEnd={() => {
+            addSubjectToFocusHistory(focusSubject, true);
+            setFocusSubject(null);
+          }}
+          focusReset={() => {
+            addSubjectToFocusHistory(focusSubject, false);
+            setFocusSubject(null);
+          }}
+        />
       ) : (
         <Focus addSubject={setFocusSubject} />
       )}

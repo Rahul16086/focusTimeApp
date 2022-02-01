@@ -6,7 +6,7 @@ import ButtonRounded from '../../components/ButtonRounded';
 import {fontSize, spacing} from '../../utils/sizes';
 
 const Focus = ({addSubject}) => {
-  const [tempText, setTempText] = useState(null);
+  const [subject, setSubject] = useState(null);
 
   const styles = StyleSheet.create({
     container: {
@@ -41,14 +41,14 @@ const Focus = ({addSubject}) => {
           <TextInput
             style={styles.input}
             onSubmitEditing={({nativeEvent}) => {
-              setTempText(nativeEvent.text);
+              setSubject(nativeEvent.text);
             }}
           />
           <ButtonRounded
             title={'+'}
             size={50}
             onPress={() => {
-              addSubject(tempText);
+              addSubject(subject);
             }}
           />
         </View>
