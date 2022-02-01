@@ -7,8 +7,8 @@
  */
 
 import type {Node} from 'react';
-import React, {useState} from 'react';
-import {Platform, StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {AsyncStorage, Platform, StyleSheet, View} from 'react-native';
 import Focus from './src/features/focus/Focus';
 import Timer from './src/features/timer/Timer';
 import {spacing} from './src/utils/sizes';
@@ -32,6 +32,35 @@ const App: () => Node = () => {
   const onClear = () => {
     setFocusHistory([]);
   };
+
+  const saveFocusHistory = async () => {
+    try {
+      await AsyncStorage.setItem('focusHistory', JSON.stringify(focusHistory));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const loadFocusHistory = async () => {
+    try {
+      const history = await AsyncStorage.getItem('focusHistory');
+
+      if (history && JSON.parse(history).length) {
+        setFocusHistory(JSON.parse(history));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    loadFocusHistory();
+  }, []);
+
+  useEffect(() => {
+    saveFocusHistory();
+  }, [focusHistory]);
+
   return (
     <View style={styles.container}>
       {focusSubject ? (
@@ -47,10 +76,10 @@ const App: () => Node = () => {
           }}
         />
       ) : (
-        <>
+        <View style={{flex: 1}}>
           <Focus addSubject={setFocusSubject} />
           <FocusHistory focusHistory={focusHistory} onClear={onClear} />
-        </>
+        </View>
       )}
     </View>
   );
