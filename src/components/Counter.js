@@ -21,12 +21,9 @@ const Counter = ({minutes = 1, isPaused, onProgress, onEnd}) => {
     setMilliSeconds(time => {
       if (time === 0) {
         clearInterval(interval.current);
-        onEnd();
         return time;
       }
-      const timeLeft = time - 1000;
-      onProgress(timeLeft / minutesToMilliseconds(minutes));
-      return timeLeft;
+      return time - 1000;
     });
   };
 
@@ -35,6 +32,13 @@ const Counter = ({minutes = 1, isPaused, onProgress, onEnd}) => {
   const timeFormatter = time => (time < 10 ? `0${time}` : time);
   const minute = Math.floor(milliSeconds / 60000) % 60;
   const seconds = Math.floor(milliSeconds / 1000) % 60;
+
+  useEffect(() => {
+    onProgress(milliSeconds / minutesToMilliseconds(minutes));
+    if (milliSeconds === 0) {
+      onEnd();
+    }
+  }, [milliSeconds]);
 
   useEffect(() => {
     setMilliSeconds(minutesToMilliseconds(minutes));

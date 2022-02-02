@@ -26,7 +26,10 @@ const App: () => Node = () => {
   const [focusHistory, setFocusHistory] = useState([]);
 
   const addSubjectToFocusHistory = (subject, completion) => {
-    setFocusHistory([...focusHistory, {subject, completion}]);
+    setFocusHistory([
+      ...focusHistory,
+      {key: String(focusHistory.length + 1), subject, completion},
+    ]);
   };
 
   const onClear = () => {

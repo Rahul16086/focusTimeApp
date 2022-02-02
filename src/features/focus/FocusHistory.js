@@ -4,7 +4,6 @@ import {fontSize, spacing} from '../../utils/sizes';
 import ButtonRounded from '../../components/ButtonRounded';
 
 const FocusHistory = ({focusHistory, onClear}) => {
-  console.log('From ', focusHistory);
   const HistoryItem = ({item, index}) => {
     return (
       <Text style={styles.historyItem(item.completion)}>{item.subject}</Text>
