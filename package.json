@@ -13,6 +13,7 @@
     "expo-keep-awake": "^10.0.1",
     "react": "17.0.2",
     "react-native": "0.67.2",
+    "react-native-keep-awake": "^4.0.0",
     "react-native-paper": "^4.11.2"
   },
   "devDependencies": {

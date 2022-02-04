@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text} from 'react-native';
 import {fontSize, spacing} from '../utils/sizes';
+import KeepAwake from 'react-native-keep-awake';
 
 const Counter = ({minutes = 1, isPaused, onProgress, onEnd}) => {
   const minutesToMilliseconds = min => min * 60000;
-
+  KeepAwake.activate();
   const styles = StyleSheet.create({
     text: {
       fontSize: fontSize.xxxl,
@@ -37,6 +38,7 @@ const Counter = ({minutes = 1, isPaused, onProgress, onEnd}) => {
     onProgress(milliSeconds / minutesToMilliseconds(minutes));
     if (milliSeconds === 0) {
       onEnd();
+      KeepAwake.deactivate();
     }
   }, [milliSeconds]);
 
@@ -47,6 +49,7 @@ const Counter = ({minutes = 1, isPaused, onProgress, onEnd}) => {
   useEffect(() => {
     if (isPaused) {
       if (interval.current) clearInterval(interval.current);
+      KeepAwake.deactivate();
       return;
     }
 

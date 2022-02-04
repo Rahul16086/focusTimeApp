@@ -32,7 +32,7 @@ const TimeToggle = ({onChangeTime}) => {
         <ButtonRounded
           size={75}
           title={'Reset'}
-          onPress={() => onChangeTime(0)}
+          onPress={() => onChangeTime(0.1)}
         />
       </View>
     </>
